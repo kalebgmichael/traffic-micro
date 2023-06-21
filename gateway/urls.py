@@ -1,0 +1,13 @@
+
+
+PORT1 = ":4000"
+PORT2 = ":4004"
+PORT3 = ":4002"
+PORT4 = ":4003"
+PORT5 = ":4001"
+GATEWAY_URL = 'http://172.25.1.60' + PORT1
+MODEL_URL = 'http://172.25.1.60' + PORT2
+MAIN_URL = 'http://172.25.1.60' + PORT3
+DB_URL = 'http://172.25.1.60' + PORT4
+AUTH_URL = 'http://172.25.1.60' + PORT5
+

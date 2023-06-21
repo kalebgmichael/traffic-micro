@@ -1,0 +1,62 @@
+version: '3'
+services:
+  model-service:
+    build: ./model_py
+    container_name: model-service
+    network_mode: "host"
+
+  main-service:
+    build: ./main_py
+    container_name: main-service
+    environment:
+      - environment:OIDC_CLIENT_SECRETS=/main_py/config/client_secrets.json
+    volumes:
+      - ./config:/app/config
+    depends_on:
+      - stats_db
+    network_mode: "host"
+
+  db-service:
+    build: ./db_py
+    container_name: db-service
+    depends_on:
+      - stats_db
+    network_mode: "host"
+
+  auth-service:
+    build: ./auth_py
+    container_name: auth-service
+    environment:
+      - environment:OIDC_CLIENT_SECRETS=/app/config/client_secrets.json
+    volumes:
+      - ./config:/app/config
+    network_mode: "host"
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    environment:
+      - environment:OIDC_CLIENT_SECRETS=/app/config/client_secrets.json
+    volumes:
+      - ./config:/app/config
+    depends_on:
+      - model-service
+      - main-service
+      - db-service
+      - auth-service
+    network_mode: "host"
+
+  stats_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'stats_db'
+      MYSQL_USER: 'stats'
+      MYSQL_PASSWORD: 'stats'
+      MYSQL_ROOT_PASSWORD: 'root_password'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    network_mode: "host"
+
+volumes:
+  mysql_data:
+  postgres_data:

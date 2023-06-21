@@ -1,0 +1,11 @@
+Flask
+requests
+python-dotenv
+numpy
+pandas
+scikit-learn
+flask-sqlalchemy
+mysqlclient
+Flask-OIDC==1.4.0
+itsdangerous==1.1.0
+markupsafe==1.1.0
